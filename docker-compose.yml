@@ -1,0 +1,46 @@
+version: '2'
+
+networks:
+  monitoring:
+
+services:
+  grafana:
+    restart: always
+    image: grafana/grafana
+    depends_on:
+      - prometheus
+    networks:
+      - monitoring
+    ports:
+      - 3000:3000
+
+  prometheus:
+    restart: always
+    build:
+      context: ./prometheus
+      dockerfile: Dockerfile
+    depends_on:
+      - node-exporter
+      - py-tests
+    networks:
+      - monitoring
+    ports:
+      - 9090:9090
+
+  node-exporter:
+    restart: always
+    image: prom/node-exporter
+    networks:
+      - monitoring
+    ports:
+      - 9100:9100
+
+  py-tests:
+    restart: always
+    build:
+      context: ./py-tests
+      dockerfile: Dockerfile
+    networks:
+      - monitoring
+    ports:
+      - 8000:8000
