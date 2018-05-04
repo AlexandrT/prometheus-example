@@ -21,11 +21,21 @@ services:
       dockerfile: Dockerfile
     depends_on:
       - node-exporter
-      - py-tests
+      - pull-container
     networks:
       - monitoring
     ports:
       - 9090:9090
+
+  pushgateway:
+    restart: always
+    image: prom/pushgateway
+    depends_on:
+      - prometheus
+    networks:
+      - monitoring
+    ports:
+      - 9091:9091
 
   node-exporter:
     restart: always
@@ -35,12 +45,22 @@ services:
     ports:
       - 9100:9100
 
-  py-tests:
+  pull-container:
     restart: always
     build:
-      context: ./py-tests
+      context: ./pull-container
       dockerfile: Dockerfile
     networks:
       - monitoring
     ports:
       - 8000:8000
+
+  push-container:
+    restart: always
+    build:
+      context: ./push-container
+      dockerfile: Dockerfile
+    depends_on:
+      - pushgateway
+    networks:
+      - monitoring

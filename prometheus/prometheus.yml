@@ -10,6 +10,7 @@ alerting:
     timeout: 10s
 scrape_configs:
 - job_name: prometheus
+  honor_labels: true
   scrape_interval: 17s
   scrape_timeout: 10s
   metrics_path: /metrics
@@ -17,5 +18,6 @@ scrape_configs:
   static_configs:
   - targets:
     - node-exporter:9100
-    - py-tests:8000
+    - pull-container:8000
+    - pushgateway:9091
 
