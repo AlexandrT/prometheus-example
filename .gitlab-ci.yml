@@ -8,7 +8,7 @@ variables:
   #COMPOSE_PRODUCTION: docker-compose -p libfnc_production -f docker/production.yml
 
 deploy_beta:
-  #image: docker:latest
+  image: docker:latest
   before_script:
     #- apk -U add python py-pip && pip install docker-compose
     - cp deploy/site /etc/nginx/sites-available/$CI_COMMIT_REF_SLUG
