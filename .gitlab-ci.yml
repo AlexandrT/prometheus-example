@@ -2,8 +2,8 @@ stages:
   - deploy
 
 variables:
-  IMAGE: prom:$CI_BUILD_REF_NAME
-  COMPOSE_TEST: docker-compose -p prom_$CI_BUILD_REF_NAME
+  IMAGE: prom:$CI_COMMIT_REF_SLUG
+  COMPOSE_TEST: docker-compose -p prom_$CI_COMMIT_REF_SLUG
   #COMPOSE_STAGING: docker-compose -p libfnc_staging -f docker/staging.yml
   #COMPOSE_PRODUCTION: docker-compose -p libfnc_production -f docker/production.yml
 
@@ -11,11 +11,11 @@ deploy_beta:
   #image: docker:latest
   before_script:
     #- apk -U add python py-pip && pip install docker-compose
-    - cp deploy/site /etc/nginx/sites-available/$CI_BUILD_REF_NAME
-    - ln -s /etc/nginx/sites-available/$CI_BUILD_REF_NAME /etc/nginx/sites-enabled/$CI_BUILD_REF_NAME
+    - cp deploy/site /etc/nginx/sites-available/$CI_COMMIT_REF_SLUG
+    - ln -s /etc/nginx/sites-available/$CI_COMMIT_REF_SLUG /etc/nginx/sites-enabled/$CI_COMMIT_REF_SLUG
   stage: deploy
   script:
-    - $COMPOSE_TEST up --build .
+    - $COMPOSE_TEST up --build
 
 #deploy_staging:
   #stage: deploy
