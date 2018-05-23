@@ -1,0 +1,6 @@
+server {
+      server_name ${CI_BUILD_REF_NAME}.leshrac.work;
+      location / {
+          proxy_pass http://127.0.0.1;
+      }
+}
