@@ -12,7 +12,7 @@ deploy_beta:
   before_script:
     #- apk -U add python py-pip && pip install docker-compose
     - cp deploy/site /etc/nginx/sites-available/$CI_COMMIT_REF_SLUG
-    - ln -s /etc/nginx/sites-available/$CI_COMMIT_REF_SLUG /etc/nginx/sites-enabled/$CI_COMMIT_REF_SLUG
+    - ln -sf /etc/nginx/sites-available/$CI_COMMIT_REF_SLUG /etc/nginx/sites-enabled/$CI_COMMIT_REF_SLUG
   stage: deploy
   script:
     - $COMPOSE_TEST up --build
