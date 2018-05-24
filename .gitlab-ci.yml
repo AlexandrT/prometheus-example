@@ -18,7 +18,7 @@ deploy_beta:
   stage: deploy
   script:
     - $COMPOSE_TEST down
-    - $COMPOSE_TEST up --build
+    - $COMPOSE_TEST up --build -d
 
 #deploy_staging:
   #stage: deploy
