@@ -1,0 +1,33 @@
+stages:
+  - deploy
+
+variables:
+  IMAGE: prom:$CI_COMMIT_REF_SLUG
+  COMPOSE_TEST: docker-compose -p prom_$CI_COMMIT_REF_SLUG
+  #COMPOSE_STAGING: docker-compose -p libfnc_staging -f docker/staging.yml
+  #COMPOSE_PRODUCTION: docker-compose -p libfnc_production -f docker/production.yml
+
+deploy_beta:
+  image: docker:latest
+  before_script:
+    - echo '$COMPOSE_TEST'
+    - export PORT=$(./check.sh)
+    - envsubst < deploy/site > /etc/nginx/sites-available/$CI_COMMIT_REF_SLUG
+    - ln -sf /etc/nginx/sites-available/$CI_COMMIT_REF_SLUG /etc/nginx/sites-enabled/$CI_COMMIT_REF_SLUG
+    - sudo systemctl reload nginx
+  stage: deploy
+  script:
+    - $COMPOSE_TEST down
+    - $COMPOSE_TEST up --build -d
+
+#deploy_staging:
+  #stage: deploy
+  #script:
+    #- $COMPOSE_STAGING build api
+    #- $COMPOSE_STAGING stop api
+    #- $COMPOSE_STAGING run --rm api sh -c './setup.sh'
+    #- $COMPOSE_STAGING up -d
+  #only:
+    #- staging
+  #tags:
+    #- staging
