@@ -13,7 +13,7 @@ deploy_beta:
     - export PORT=$(./check.sh)
     - envsubst < deploy/site > /etc/nginx/sites-available/$CI_COMMIT_REF_SLUG
     - ln -sf /etc/nginx/sites-available/$CI_COMMIT_REF_SLUG /etc/nginx/sites-enabled/$CI_COMMIT_REF_SLUG
-    - systemctl reload nginx
+    - sudo systemctl reload nginx
   stage: deploy
   script:
     - $COMPOSE_TEST up --build
