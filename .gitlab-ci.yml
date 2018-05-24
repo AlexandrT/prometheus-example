@@ -17,6 +17,7 @@ deploy_beta:
     - sudo systemctl reload nginx
   stage: deploy
   script:
+    - $COMPOSE_TEST down
     - $COMPOSE_TEST up --build
 
 #deploy_staging:

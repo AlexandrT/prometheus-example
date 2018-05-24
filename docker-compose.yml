@@ -24,7 +24,7 @@ services:
       - pull-container
     networks:
       - monitoring
-    ports:
+    expose:
       - 9090:9090
 
   pushgateway:
@@ -34,7 +34,7 @@ services:
       - prometheus
     networks:
       - monitoring
-    ports:
+    expose:
       - 9091:9091
 
   node-exporter:
@@ -42,7 +42,7 @@ services:
     image: prom/node-exporter
     networks:
       - monitoring
-    ports:
+    expose:
       - 9100:9100
 
   pull-container:
@@ -52,7 +52,7 @@ services:
       dockerfile: Dockerfile
     networks:
       - monitoring
-    ports:
+    expose:
       - 8000:8000
 
   push-container:
