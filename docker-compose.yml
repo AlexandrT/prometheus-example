@@ -24,8 +24,6 @@ services:
       - pull-container
     networks:
       - monitoring
-    #ports:
-      #- 9090:9090
 
   pushgateway:
     restart: always
@@ -34,16 +32,12 @@ services:
       - prometheus
     networks:
       - monitoring
-    #ports:
-      #- 9091:9091
 
   node-exporter:
     restart: always
     image: prom/node-exporter
     networks:
       - monitoring
-    #ports:
-      #- 9100:9100
 
   pull-container:
     restart: always
@@ -52,8 +46,6 @@ services:
       dockerfile: Dockerfile
     networks:
       - monitoring
-    #ports:
-      #- 8000:8000
 
   push-container:
     restart: always
